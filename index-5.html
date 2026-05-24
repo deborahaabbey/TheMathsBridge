@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Math Bridge — Master Mathematics with Confidence</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:     #1a1008;
+      --cream:   #faf6ef;
+      --gold:    #c8873a;
+      --rust:    #b84b2b;
+      --sage:    #4a6741;
+      --mist:    #e8e2d8;
+      --accent:  #e9a44a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 5vw;
+      background: rgba(250,246,239,0.85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--mist);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .nav-logo span { color: var(--gold); }
+    nav ul {
+      list-style: none;
+      display: flex; gap: 2rem;
+    }
+    nav a {
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 5vw 4rem;
+      gap: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 70% at 80% 50%, rgba(200,135,58,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 50% at 20% 80%, rgba(74,103,65,0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-bg-sym {
+      position: absolute;
+      font-family: 'Playfair Display', serif;
+      color: rgba(200,135,58,0.06);
+      font-size: clamp(8rem, 18vw, 22rem);
+      font-weight: 700;
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+    .sym1 { top: 0; right: 3%; }
+    .sym2 { bottom: -2rem; left: 44%; font-size: clamp(5rem, 10vw, 13rem); }
+
+    .hero-text { position: relative; z-index: 1; }
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      padding: 0.35rem 0.8rem;
+      border: 1px solid var(--gold);
+      border-radius: 2px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 1.4rem;
+    }
+    h1 em { font-style: italic; color: var(--rust); }
+    .hero-sub {
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: #4a3f30;
+      max-width: 460px;
+      margin-bottom: 2.4rem;
+    }
+    .btn-primary {
+      display: inline-block;
+      padding: 0.9rem 2.2rem;
+      background: var(--ink);
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: background 0.25s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--gold); transform: translateY(-2px); }
+    .btn-secondary {
+      display: inline-block;
+      margin-left: 1rem;
+      padding: 0.9rem 2.2rem;
+      border: 1.5px solid var(--ink);
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: border-color 0.25s, color 0.25s;
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+    .hero-card {
+      position: relative; z-index: 1;
+      background: var(--ink);
+      color: var(--cream);
+      border-radius: 6px;
+      padding: 2.8rem 2.4rem;
+      box-shadow: 12px 16px 0 var(--gold);
+      animation: floatCard 5s ease-in-out infinite;
+    }
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
+    }
+    .card-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .card-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      line-height: 1.45;
+      margin-bottom: 1.6rem;
+    }
+    .card-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .stat { border-top: 1px solid rgba(255,255,255,0.15); padding-top: 0.9rem; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .stat-desc {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: rgba(250,246,239,0.65);
+      margin-top: 0.2rem;
+    }
+
+    /* ── ABOUT ── */
+    .about {
+      padding: 6rem 5vw;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 5rem;
+      align-items: start;
+      border-top: 1px solid var(--mist);
+    }
+    .section-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 0;
+      position: sticky;
+      top: 6rem;
+    }
+    .about-body p {
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.85;
+      color: #4a3f30;
+      margin-bottom: 1.5rem;
+    }
+    .about-body p:last-child { margin-bottom: 0; }
+    strong { font-weight: 500; color: var(--ink); }
+
+    /* ── FEATURES ── */
+    .features {
+      padding: 6rem 5vw;
+      background: var(--ink);
+      color: var(--cream);
+    }
+    .features-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3.5rem;
+      gap: 2rem;
+    }
+    .features-header .section-tag { color: var(--accent); }
+    .features-header .section-title { color: var(--cream); position: static; }
+    .features-header p {
+      max-width: 340px;
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: rgba(250,246,239,0.6);
+      line-height: 1.7;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+    .feature-item {
+      padding: 2.5rem 2rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: background 0.25s;
+      cursor: default;
+    }
+    .feature-item:hover { background: rgba(255,255,255,0.04); }
+    .feature-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: rgba(200,135,58,0.3);
+      line-height: 1;
+      margin-bottom: 1.2rem;
+    }
+    .feature-title {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+    .feature-desc {
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: rgba(250,246,239,0.55);
+      line-height: 1.75;
+    }
+
+    /* ── NEWSLETTER ── */
+    .newsletter {
+      padding: 6rem 5vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      border-top: 1px solid var(--mist);
+    }
+    .nl-text .section-title { position: static; margin-bottom: 1rem; }
+    .nl-text p {
+      font-size: 0.95rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: #4a3f30;
+      margin-bottom: 1.5rem;
+    }
+    .editions {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+    }
+    .edition-tag {
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid var(--mist);
+      border-radius: 2px;
+      color: #6b5c47;
+    }
+    .nl-form {
+      background: var(--mist);
+      border-radius: 6px;
+      padding: 2.5rem;
+    }
+    .nl-form h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+    .nl-form p {
+      font-size: 0.875rem;
+      color: #6b5c47;
+      margin-bottom: 1.5rem;
+    }
+    .input-row { display: flex; gap: 0.5rem; }
+    .nl-form input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid #c8bfb0;
+      background: var(--cream);
+      border-radius: 2px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .nl-form input:focus { border-color: var(--gold); }
+    .nl-form button {
+      padding: 0.75rem 1.4rem;
+      background: var(--gold);
+      color: var(--cream);
+      border: none;
+      border-radius: 2px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .nl-form button:hover { background: var(--rust); }
+
+    /* ── REVIEWS ── */
+    .reviews-section {
+      padding: 6rem 5vw;
+      background: var(--cream);
+      border-top: 1px solid var(--mist);
+    }
+    .reviews-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .reviews-header .section-title { position: static; }
+    .reviews-header p {
+      max-width: 340px;
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: #4a3f30;
+      line-height: 1.7;
+    }
+    .reviews-cta {
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+    .reviews-cta p {
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: #7a6a55;
+      margin-bottom: 1rem;
+    }
+    .btn-review {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      background: var(--gold);
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-review:hover { background: var(--rust); transform: translateY(-2px); }
+
+    /* ── TUTORING ── */
+    .tutoring { padding: 6rem 5vw; background: var(--cream); border-top: 1px solid var(--mist); }
+    .tutoring-header { text-align: center; margin-bottom: 3.5rem; }
+    .tutoring-header .section-title { position: static; margin-bottom: 0.75rem; }
+    .tutoring-header p { font-size: 1rem; font-weight: 300; color: #4a3f30; max-width: 520px; margin: 0 auto; line-height: 1.75; }
+    .exam-badges { display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 3.5rem; }
+    .exam-badge { padding: 0.55rem 1.3rem; border-radius: 2px; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+    .badge-waec { background: #f0e6d8; color: var(--rust); border: 1.5px solid #d4a882; }
+    .badge-cam  { background: #dde6dd; color: var(--sage); border: 1.5px solid #9db89a; }
+    .badge-ib   { background: #dde2ec; color: #2c4a8a;     border: 1.5px solid #8ea4cc; }
+    .badge-sat  { background: #f8e8cc; color: #8a4500;     border: 1.5px solid #e0b070; }
+    .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+    .plan-card { border: 1.5px solid var(--mist); border-radius: 6px; padding: 2rem 1.8rem 2.2rem; position: relative; transition: border-color 0.25s, box-shadow 0.25s; background: #fff; }
+    .plan-card:hover { border-color: var(--gold); box-shadow: 6px 8px 0 rgba(200,135,58,0.15); }
+    .plan-card.featured { border-color: var(--gold); background: var(--ink); color: var(--cream); }
+    .plan-tag { position: absolute; top: -0.65rem; left: 1.5rem; background: var(--gold); color: var(--cream); font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2rem 0.7rem; border-radius: 2px; }
+    .plan-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+    .plan-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 0.4rem; }
+    .plan-card.featured .plan-title { color: var(--accent); }
+    .plan-subtitle { font-size: 0.8rem; font-weight: 300; color: #7a6a55; margin-bottom: 1.4rem; line-height: 1.5; }
+    .plan-card.featured .plan-subtitle { color: rgba(250,246,239,0.55); }
+    .plan-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .plan-list li { font-size: 0.875rem; font-weight: 300; color: #4a3f30; display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.5; }
+    .plan-card.featured .plan-list li { color: rgba(250,246,239,0.8); }
+    .plan-list li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+    .plan-card.featured .plan-list li::before { color: var(--accent); }
+    .levels-row { background: var(--mist); border-radius: 6px; padding: 1.8rem 2rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
+    .levels-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); white-space: nowrap; }
+    .levels-list { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .level-pill { font-size: 0.8rem; padding: 0.3rem 0.85rem; background: var(--cream); border-radius: 20px; color: var(--ink); border: 1px solid #c8bfb0; }
+    .tutoring-cta { margin-top: 2.5rem; text-align: center; }
+    .tutoring-cta p { font-size: 0.9rem; font-weight: 300; color: #6b5c47; margin-bottom: 1.2rem; }
+    .cta-buttons { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .btn-whatsapp { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2rem; background: #25d366; color: #fff; text-decoration: none; font-size: 0.9rem; font-weight: 500; border-radius: 2px; transition: background 0.2s, transform 0.2s; }
+    .btn-whatsapp:hover { background: #1ebe5d; transform: translateY(-2px); }
+
+    /* ── EDITIONS ── */
+    .editions-section { padding: 6rem 5vw; border-top: 1px solid var(--mist); }
+    .editions-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; gap: 2rem; flex-wrap: wrap; }
+    .editions-header .section-title { position: static; }
+    .editions-header p { max-width: 340px; font-size: 0.95rem; font-weight: 300; color: #4a3f30; line-height: 1.7; }
+    .editions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 2rem; }
+    .edition-card { border: 1.5px solid var(--mist); border-radius: 6px; padding: 1.6rem 1.5rem; background: #fff; transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s; display: flex; flex-direction: column; gap: 0.5rem; text-decoration: none; color: inherit; }
+    .edition-card:hover { border-color: var(--gold); box-shadow: 4px 6px 0 rgba(200,135,58,0.12); transform: translateY(-3px); }
+    .edition-card.latest { border-color: var(--gold); background: var(--ink); color: var(--cream); }
+    .ed-number { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
+    .edition-card.latest .ed-number { color: var(--accent); }
+    .ed-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; line-height: 1.3; color: var(--ink); }
+    .edition-card.latest .ed-title { color: var(--cream); }
+    .ed-desc { font-size: 0.82rem; font-weight: 300; color: #7a6a55; line-height: 1.6; flex: 1; }
+    .edition-card.latest .ed-desc { color: rgba(250,246,239,0.6); }
+    .ed-tag { display: inline-block; margin-top: 0.4rem; font-size: 0.7rem; letter-spacing: 0.08em; padding: 0.2rem 0.6rem; border-radius: 2px; background: var(--mist); color: #6b5c47; align-self: flex-start; }
+    .edition-card.latest .ed-tag { background: rgba(255,255,255,0.12); color: var(--accent); }
+    .editions-footer { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding-top: 2rem; border-top: 1px solid var(--mist); flex-wrap: wrap; }
+    .editions-footer p { font-size: 0.88rem; font-weight: 300; color: #7a6a55; }
+    .btn-outline { display: inline-block; padding: 0.75rem 1.8rem; border: 1.5px solid var(--ink); color: var(--ink); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 2px; transition: background 0.2s, color 0.2s; }
+    .btn-outline:hover { background: var(--ink); color: var(--cream); }
+
+    /* ── CONTACT ── */
+    .contact-section { padding: 6rem 5vw; background: var(--mist); border-top: 1px solid #d4cdc0; }
+    .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .contact-sub { font-size: 0.95rem; font-weight: 300; color: #4a3f30; line-height: 1.75; margin-top: 0.75rem; }
+    .contact-cards { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-card { display: flex; align-items: center; gap: 1.2rem; padding: 1.4rem 1.6rem; border-radius: 6px; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+    .contact-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .whatsapp-card { background: #fff; border: 1.5px solid #b7e8c4; }
+    .email-card    { background: #fff; border: 1.5px solid #c8bfb0; }
+    .contact-card-icon { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .whatsapp-card .contact-card-icon { background: #e8f8ed; color: #25d366; }
+    .email-card    .contact-card-icon { background: #f0e8dc; color: var(--gold); }
+    .contact-card-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #7a6a55; margin-bottom: 0.2rem; }
+    .contact-card-value { font-size: 0.95rem; font-weight: 500; color: var(--ink); }
+
+    /* Floating WhatsApp */
+    .whatsapp-float { position: fixed; bottom: 1.8rem; right: 1.8rem; width: 56px; height: 56px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; box-shadow: 0 4px 16px rgba(37,211,102,0.45); z-index: 200; transition: transform 0.2s, box-shadow 0.2s; animation: pulseWA 2.5s ease-in-out infinite; }
+    .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(37,211,102,0.6); animation: none; }
+    @keyframes pulseWA { 0%, 100% { box-shadow: 0 4px 16px rgba(37,211,102,0.45); } 50% { box-shadow: 0 4px 28px rgba(37,211,102,0.75); } }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 3rem 5vw 2rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 2rem;
+    }
+    .footer-brand { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+    .footer-brand span { color: var(--gold); }
+    .footer-tag { font-size: 0.78rem; color: rgba(250,246,239,0.4); margin-top: 0.3rem; }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a {
+      color: rgba(250,246,239,0.5);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-top: 2rem; padding-top: 1.2rem;
+      grid-column: 1 / -1;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-bottom p { font-size: 0.78rem; color: rgba(250,246,239,0.3); }
+    .socials { display: flex; gap: 1rem; }
+    .socials a {
+      display: flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50%;
+      color: rgba(250,246,239,0.5);
+      text-decoration: none;
+      font-size: 0.75rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .socials a:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding-top: 7rem; }
+      .hero-card { display: none; }
+      .about { grid-template-columns: 1fr; gap: 2rem; }
+      .section-title { position: static !important; }
+      .features-grid { grid-template-columns: 1fr; }
+      .features-header { flex-direction: column; align-items: flex-start; }
+      .newsletter { grid-template-columns: 1fr; gap: 3rem; }
+      footer { grid-template-columns: 1fr; }
+      .input-row { flex-direction: column; }
+      .plans-grid { grid-template-columns: 1fr; }
+      .levels-row { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .editions-grid { grid-template-columns: 1fr; }
+      .editions-header { flex-direction: column; align-items: flex-start; }
+      .editions-footer { flex-direction: column; align-items: flex-start; }
+      .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .cta-buttons { flex-direction: column; align-items: center; }
+      .reviews-header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">The Math <span>Bridge</span></a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#features">What We Offer</a></li>
+      <li><a href="#tutoring">Tutoring</a></li>
+      <li><a href="#editions">Editions</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="hero-bg-sym sym1">∑</span>
+    <span class="hero-bg-sym sym2">π</span>
+
+    <div class="hero-text reveal">
+      <span class="eyebrow">Mathematics Education</span>
+      <h1>Mathematics That<br><em>Finally</em><br>Makes Sense</h1>
+      <p class="hero-sub">
+        Empowering students with clear, step-by-step explanations rooted in
+        West African contexts. From fractions to calculus — we make it make sense.
+      </p>
+      <a href="#editions" class="btn-primary">Read the Newsletter</a>
+      <a href="#features" class="btn-secondary">Learn More</a>
+    </div>
+
+    <div class="hero-card reveal">
+      <p class="card-label">The Math Bridge Newsletter</p>
+      <p class="card-quote">"Mathematics is not about numbers — it's about understanding the world."</p>
+      <div class="card-stats">
+        <div class="stat">
+          <div class="stat-num">14+</div>
+          <div class="stat-desc">Editions published</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100%</div>
+          <div class="stat-desc">Exam-focused</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">IGCSE</div>
+          <div class="stat-desc">& IB MYP aligned</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">Free</div>
+          <div class="stat-desc">Weekly newsletter</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="reveal">
+      <p class="section-tag">About</p>
+      <h2 class="section-title">Your Guide to Easy Math Understanding</h2>
+    </div>
+    <div class="about-body reveal">
+      <p>
+        <strong>The Math Bridge</strong> is an independent educational brand built on one belief:
+        every student can understand mathematics when it's taught with clarity, care, and cultural relevance.
+        Founded by Deborah Akua Abbey — a mathematics teacher, facilitator, and curriculum expert — the platform
+        uses narrative storytelling and West African contexts to make abstract concepts feel real.
+      </p>
+      <p>
+        Through a weekly newsletter, tutoring materials, and community resources, The Math Bridge supports
+        students preparing for <strong>Cambridge IGCSE</strong> and <strong>IB MYP</strong> examinations,
+        as well as parents and educators looking to build stronger mathematical foundations in their communities.
+      </p>
+      <p>
+        Our approach is simple: understand first, memorise second. We use market calculations, farmland problems, and everyday Ghanaian life to make abstract mathematics tangible — so students see mathematics not as a foreign language, but as a tool they already use.
+      </p>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="features-header reveal">
+      <div>
+        <p class="section-tag">What We Offer</p>
+        <h2 class="section-title">Built for Real<br>Student Success</h2>
+      </div>
+      <p>Three pillars that guide everything we create — from newsletter editions to tutoring sessions.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-item reveal">
+        <div class="feature-num">01</div>
+        <h3 class="feature-title">Customised Learning</h3>
+        <p class="feature-desc">
+          Teaching methods tailored to each student's learning style. We identify where understanding breaks
+          down and rebuild from that point — no judgment, just progress.
+        </p>
+      </div>
+      <div class="feature-item reveal">
+        <div class="feature-num">02</div>
+        <h3 class="feature-title">Interactive & Engaging</h3>
+        <p class="feature-desc">
+          From storytelling in the newsletter to visual problem-solving in sessions, we use variety
+          to keep mathematics interesting, relevant, and even fun.
+        </p>
+      </div>
+      <div class="feature-item reveal">
+        <div class="feature-num">03</div>
+        <h3 class="feature-title">Practice & Application</h3>
+        <p class="feature-desc">
+          Exam-style problems, worked examples, and mark schemes designed to solidify understanding
+          and build the confidence to apply knowledge under pressure.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TUTORING -->
+  <section class="tutoring" id="tutoring">
+    <div class="tutoring-header reveal">
+      <p class="section-tag">Private Tutoring</p>
+      <h2 class="section-title">Personalised Tutoring<br>for Every Level</h2>
+      <p>Beyond the newsletter, I offer personalised tutoring for students at all levels — from junior secondary through to upper secondary and university entrance preparation. Flexible after-school sessions can be arranged to suit your schedule.</p>
+    </div>
+    <div class="exam-badges reveal">
+      <span class="exam-badge badge-waec">WAEC / BECE &amp; WASSCE</span>
+      <span class="exam-badge badge-cam">Cambridge IGCSE &amp; A-Level</span>
+      <span class="exam-badge badge-ib">IB MYP &amp; DP Mathematics</span>
+      <span class="exam-badge badge-sat">SAT Mathematics</span>
+    </div>
+    <div class="plans-grid">
+      <div class="plan-card reveal">
+        <div class="plan-icon">📘</div>
+        <h3 class="plan-title">After-School Support</h3>
+        <p class="plan-subtitle">Flexible sessions scheduled after school hours, tailored to your exam board and level.</p>
+        <ul class="plan-list">
+          <li>WAEC, Cambridge &amp; IB Mathematics</li>
+          <li>Junior &amp; senior secondary levels</li>
+          <li>Concept building &amp; gap-filling</li>
+          <li>Exam-style problem practice</li>
+          <li>Flexible scheduling — weekdays or weekends</li>
+        </ul>
+      </div>
+      <div class="plan-card featured reveal">
+        <span class="plan-tag">Most Popular</span>
+        <div class="plan-icon">🎯</div>
+        <h3 class="plan-title">Full-Year Study Plan</h3>
+        <p class="plan-subtitle">A structured 12-month programme for students committed to serious exam preparation.</p>
+        <ul class="plan-list">
+          <li>Personalised year-long curriculum map</li>
+          <li>Weekly sessions with progress tracking</li>
+          <li>Past paper drilling &amp; mark scheme review</li>
+          <li>Mid-year and mock assessments</li>
+          <li>Parent/guardian progress updates</li>
+          <li>Covers WAEC, Cambridge, IB, or SAT</li>
+        </ul>
+      </div>
+      <div class="plan-card reveal">
+        <div class="plan-icon">📝</div>
+        <h3 class="plan-title">SAT Maths Preparation</h3>
+        <p class="plan-subtitle">Targeted preparation for students applying to US universities.</p>
+        <ul class="plan-list">
+          <li>Heart of Algebra &amp; Advanced Maths</li>
+          <li>Problem Solving &amp; Data Analysis</li>
+          <li>Timed practice under exam conditions</li>
+          <li>Score improvement strategies</li>
+          <li>Available as standalone or within full-year plan</li>
+        </ul>
+      </div>
+    </div>
+    <div class="levels-row reveal">
+      <span class="levels-label">Levels Covered</span>
+      <div class="levels-list">
+        <span class="level-pill">JHS 1 – 3</span>
+        <span class="level-pill">SHS 1 – 3</span>
+        <span class="level-pill">Year 7 – 9 (MYP)</span>
+        <span class="level-pill">Year 10 – 11 (IGCSE)</span>
+        <span class="level-pill">Year 12 – 13 (A-Level / DP)</span>
+        <span class="level-pill">SAT Candidates</span>
+      </div>
+    </div>
+    <div class="tutoring-cta reveal">
+      <p>Fees are communicated on enquiry. After-school and weekend slots are available.</p>
+      <div class="cta-buttons">
+        <a href="https://wa.me/233541540029?text=Hi%20Deborah%2C%20I%20am%20interested%20in%20tutoring%20from%20The%20Math%20Bridge." target="_blank" class="btn-whatsapp">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.529 5.845L.057 23.571a.75.75 0 0 0 .916.916l5.726-1.472A11.953 11.953 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.523-5.153-1.432l-.37-.22-3.843.988.988-3.842-.22-.37A9.952 9.952 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          WhatsApp
+        </a>
+        <a href="mailto:the_maths_bridge@yahoo.com" class="btn-primary">Email Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDITIONS ARCHIVE -->
+  <section class="editions-section" id="editions">
+    <div class="editions-header reveal">
+      <div>
+        <p class="section-tag">The Newsletter</p>
+        <h2 class="section-title">All Editions</h2>
+      </div>
+      <p>Every edition unpacks one concept — clearly, step by step, with real-world West African context. Free, every week on LinkedIn.</p>
+    </div>
+    <div class="editions-grid">
+      <a class="edition-card latest reveal" href="https://www.linkedin.com/posts/deborah-akua-abbey_themathbridge-examseason-igcse-share-7463225439554170880-0Ukw" target="_blank">
+        <span class="ed-number">Edition 14 · Latest</span>
+        <h3 class="ed-title">The Final Stretch</h3>
+        <p class="ed-desc">Two weeks to exams. A word for every student, parent, and teacher still in the room — there is still time, but not to waste.</p>
+        <span class="ed-tag">Exam Season</span>
+      </a>
+      <a class="edition-card reveal" href="https://www.linkedin.com/posts/deborah-akua-abbey_themathbridge-examseason-wassce-share-7460680039462998016-KE3X" target="_blank">
+        <span class="ed-number">Edition 13</span>
+        <h3 class="ed-title">The Exam Season Special</h3>
+        <p class="ed-desc">BECE candidates have crossed their finish line. For WASSCE and A-Level students, the papers are still coming. A word for everyone in the room.</p>
+        <span class="ed-tag">Exam Season</span>
+      </a>
+      <a class="edition-card reveal" href="https://www.linkedin.com/posts/deborah-akua-abbey_themathbridge-edition12-examseason-share-7457771614412374016-Wr8U" target="_blank">
+        <span class="ed-number">Edition 12</span>
+        <h3 class="ed-title">Exam Season Communiqué</h3>
+        <p class="ed-desc">Success in exam season is not a solo achievement. A message for learners, parents, and teachers across WAEC, IGCSE, IB, and A-Level.</p>
+        <span class="ed-tag">Exam Season</span>
+      </a>
+      <a class="edition-card reveal" href="https://www.linkedin.com/posts/deborah-akua-abbey_themathbridge-mathematicseducation-linearequations-activity-7445505258715500544-o3FI" target="_blank">
+        <span class="ed-number">Edition 11</span>
+        <h3 class="ed-title">Linear Equations</h3>
+        <p class="ed-desc">X was never properly introduced — until now. A Ghanaian market story shows that solving for the unknown is something we already do every day.</p>
+        <span class="ed-tag">Algebra</span>
+      </a>
+      <a class="edition-card reveal" href="https://www.linkedin.com/posts/deborah-akua-abbey_mathematics-matheducation-teachingphilosophy-activity-7443321340134293504-pkX6" target="_blank">
+        <span class="ed-number">Edition 10</span>
+        <h3 class="ed-title">Leading with Questions</h3>
+        <p class="ed-desc">What changed when I stopped leading with formulas and started asking "what do you notice?" — math class should produce thinkers, not answer machines.</p>
+        <span class="ed-tag">Teaching</span>
+      </a>
+      <a class="edition-card reveal" href="https://www.linkedin.com/posts/deborah-akua-abbey_themathbridge-fractions-igcsemath-activity-7440676027514757120-4IQt" target="_blank">
+        <span class="ed-number">Edition 9</span>
+        <h3 class="ed-title">Fractions</h3>
+        <p class="ed-desc">Every Sunday Ama watches her mother cut the pie. That quiet watchfulness at the kitchen table? That is fractions — the mathematics of sharing we already know.</p>
+        <span class="ed-tag">Number</span>
+      </a>
+    </div>
+    <div class="editions-footer reveal">
+      <p>Editions 1–8 and all future editions available on LinkedIn. New edition every week.</p>
+      <a href="https://www.linkedin.com/in/deborah-akua-abbey" target="_blank" class="btn-outline">View All Editions on LinkedIn →</a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section" id="contact">
+    <div class="contact-inner reveal">
+      <div>
+        <p class="section-tag">Get in Touch</p>
+        <h2 class="section-title" style="position:static; margin-bottom:0.75rem;">Reach Out Directly</h2>
+        <p class="contact-sub">Whether you have a question about tutoring, want to enrol, or just want to say hello — I'd love to hear from you.</p>
+      </div>
+      <div class="contact-cards">
+        <a href="https://wa.me/233541540029?text=Hi%20Deborah%2C%20I%20found%20The%20Math%20Bridge%20and%20would%20like%20to%20know%20more." target="_blank" class="contact-card whatsapp-card">
+          <div class="contact-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.529 5.845L.057 23.571a.75.75 0 0 0 .916.916l5.726-1.472A11.953 11.953 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.523-5.153-1.432l-.37-.22-3.843.988.988-3.842-.22-.37A9.952 9.952 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          </div>
+          <div>
+            <p class="contact-card-label">WhatsApp</p>
+            <p class="contact-card-value">+233 541 540 029</p>
+          </div>
+        </a>
+        <a href="mailto:the_maths_bridge@yahoo.com" class="contact-card email-card">
+          <div class="contact-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </div>
+          <div>
+            <p class="contact-card-label">Email</p>
+            <p class="contact-card-value">the_maths_bridge@yahoo.com</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="reviews-section" id="reviews">
+    <div class="reviews-header reveal">
+      <div>
+        <p class="section-tag">What Students Say</p>
+        <h2 class="section-title">Real Reviews,<br>Real Results</h2>
+      </div>
+      <p>Hear directly from students and parents who have experienced The Math Bridge.</p>
+    </div>
+
+    <div class="reveal">
+      <script src="https://widget.senja.io/widget/99cda12d-b3cc-4539-8323-63c1b76fea1b/platform.js" type="text/javascript" async></script>
+      <div class="senja-embed" data-id="99cda12d-b3cc-4539-8323-63c1b76fea1b" data-mode="shadow" data-lazyload="false" style="display: block; width: 100%;"></div>
+    </div>
+
+    <div class="reviews-cta reveal">
+      <p>Studied with The Math Bridge? We would love to hear from you.</p>
+      <a href="https://senja.io/p/deborahaabbey/r/iaIVuP" target="_blank" class="btn-review">Leave a Review</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <p class="footer-brand">The Math <span>Bridge</span></p>
+      <p class="footer-tag">Making mathematics accessible, one story at a time.</p>
+    </div>
+    <ul class="footer-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#tutoring">Tutoring</a></li>
+      <li><a href="#editions">Editions</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="mailto:the_maths_bridge@yahoo.com">Contact</a></li>
+    </ul>
+    <div class="footer-bottom">
+      <p>© 2026 The Math Bridge. All rights reserved.</p>
+      <div class="socials">
+        <a href="https://www.facebook.com" aria-label="Facebook">f</a>
+        <a href="https://www.instagram.com" aria-label="Instagram">ig</a>
+        <a href="https://www.linkedin.com/in/deborah-akua-abbey" target="_blank" aria-label="LinkedIn">in</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP -->
+  <a href="https://wa.me/233541540029?text=Hi%20Deborah%2C%20I%20found%20The%20Math%20Bridge%20and%20would%20like%20to%20know%20more." target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.529 5.845L.057 23.571a.75.75 0 0 0 .916.916l5.726-1.472A11.953 11.953 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.523-5.153-1.432l-.37-.22-3.843.988.988-3.842-.22-.37A9.952 9.952 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+  </a>
+
+  <script>
+    const els = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(el => obs.observe(el));
+
+    document.querySelectorAll('.hero .reveal').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), 200 + i * 200);
+    });
+  </script>
+</body>
+</html>
